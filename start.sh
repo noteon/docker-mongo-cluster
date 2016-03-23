@@ -28,14 +28,14 @@ mongo --port 28001 --eval 'var rst=rs.initiate();sleep(5000); rs.add(rst.me.repl
 
 # Create some Config Servers
 mongod --configsvr --port 26001 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-001.log --fork --noprealloc --smallfiles
-mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-002.log --fork --noprealloc --smallfiles
-mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-003.log --fork --noprealloc --smallfiles 
+mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-002 --logpath=/var/log/mongodb/mongodb-cfg1-002.log --fork --noprealloc --smallfiles
+mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-003 --logpath=/var/log/mongodb/mongodb-cfg1-003.log --fork --noprealloc --smallfiles 
 
 #Create a Router
-mongos --port 27017 --configdb 'localhost:26001, localhost:26002, localhost:26003' --fork --logpath=/var/log/mongodb/mongodb-router.log 
+mongos --port 27017 --configdb 127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --fork --logpath=/var/log/mongodb/mongodb-router.log 
 
 #Initialize the Shard
-mongo --port 27017 --eval 'sh.addShard("rs1/localhost:27001");sh.addShard("rs1/localhost:28001");sleep(2000);sh.status();'
+mongo --port 27017 --eval 'sh.addShard("rs1/localhost:27001");sh.addShard("rs1/localhost:28001");sleep(2000);printjson(sh.status());'
 
 # Run mongo as the running process, this is required to keep the docker process running
 mongo
