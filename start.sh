@@ -27,12 +27,12 @@ mongo --port 28001 --eval 'var rst=rs.initiate();sleep(5000); rs.add(rst.me.repl
 
 
 # Create some Config Servers
-mongod --configsvr --port 26001 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles
-mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles
-mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles 
+mongod --configsvr --port 26001 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-001.log --fork --noprealloc --smallfiles
+mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-002.log --fork --noprealloc --smallfiles
+mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-003.log --fork --noprealloc --smallfiles 
 
 #Create a Router
-mongos --port 27017 --configdb localhost:26001, localhost:26002, localhost:26003 --fork
+mongos --port 27017 --configdb 'localhost:26001, localhost:26002, localhost:26003' --fork --logpath=/var/log/mongodb/mongodb-router.log 
 
 #Initialize the Shard
 mongo --port 27017 --eval 'sh.addShard("rs1/localhost:27001");sh.addShard("rs1/localhost:28001");sleep(2000);sh.status();'
