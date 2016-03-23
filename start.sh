@@ -18,26 +18,26 @@ mongod --replSet rs1 --port=27001 --dbpath=/data/db/rs1/db-001  --logpath=/var/l
 mongod --replSet rs1 --port=27002 --dbpath=/data/db/rs1/db-002  --logpath=/var/log/mongodb/mongodb-rs1-002.log --fork  --noprealloc --smallfiles --nojournal --oplogSize=5
 mongod --replSet rs1 --port=27003 --dbpath=/data/db/rs1/db-003  --logpath=/var/log/mongodb/mongodb-rs1-003.log --fork  --noprealloc --smallfiles --nojournal --oplogSize=5
 mongo --port 27001 --eval 'rs.initiate({  
-    _id : "my_replica_set_1",  
+    _id : "rs1",  
      members : [  
          {_id : 0, host : "127.0.01:27001"},  
          {_id : 1, host : "127.0.01:27002"},  
          {_id : 2, host : "127.0.01:27003"}, 
      ] 
-}); printjson(rs.status());'
+}); sleep(5000); printjson(rs.status());'
 
 # Run mongo replica sets rs2
 mongod --replSet rs2 --port=28001 --dbpath=/data/db/rs2/db-001  --logpath=/var/log/mongodb/mongodb-rs2-001.log --fork  --noprealloc --smallfiles --nojournal --oplogSize=5 
 mongod --replSet rs2 --port=28002 --dbpath=/data/db/rs2/db-002  --logpath=/var/log/mongodb/mongodb-rs2-002.log --fork  --noprealloc --smallfiles --nojournal --oplogSize=5
 mongod --replSet rs2 --port=28003 --dbpath=/data/db/rs2/db-003  --logpath=/var/log/mongodb/mongodb-rs2-003.log --fork  --noprealloc --smallfiles --nojournal --oplogSize=5
 mongo --port 28001 --eval 'rs.initiate({  
-    _id : "my_replica_set_2",  
+    _id : "rs2",  
      members : [  
          {_id : 0, host : "127.0.01:28001"},  
          {_id : 1, host : "127.0.01:28002"},  
          {_id : 2, host : "127.0.01:28003"}, 
      ] 
-}); printjson(rs.status());'
+}); sleep(5000);  printjson(rs.status());'
 
 # Create some Config Servers
 mongod --configsvr --port 26001 --dbpath /data/db/cfg/db-001 --logpath=/var/log/mongodb/mongodb-cfg1-001.log --fork --noprealloc --smallfiles
