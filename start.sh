@@ -27,9 +27,9 @@ mongo --port 28001 --eval 'var rst=rs.initiate();sleep(5000); rs.add(rst.me.repl
 
 
 # Create some Config Servers
-mongod --configsvr --port 26001 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles --nojournal   
-mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles --nojournal
-mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles --nojournal 
+mongod --configsvr --port 26001 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles
+mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles
+mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-001 --fork --noprealloc --smallfiles 
 
 #Create a Router
 mongos --port 27017 --configdb localhost:26001, localhost:26002, localhost:26003 --fork
