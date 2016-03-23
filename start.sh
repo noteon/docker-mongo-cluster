@@ -45,10 +45,10 @@ mongod --configsvr --port 26002 --dbpath /data/db/cfg/db-002 --logpath=/var/log/
 mongod --configsvr --port 26003 --dbpath /data/db/cfg/db-003 --logpath=/var/log/mongodb/mongodb-cfg1-003.log --fork --noprealloc --smallfiles 
 
 #Create a Router
-mongos --port 27017 --configdb 127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --fork --logpath=/var/log/mongodb/mongodb-router.log 
+mongos --configdb 127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --fork --logpath=/var/log/mongodb/mongodb-router.log 
 
 #Initialize the Shard
-mongo --port 27017 --eval 'sh.addShard("rs1/127.0.0.1:27001");sh.addShard("rs2/127.0.0.1:28001");printjson(sh.status());'
+mongo --eval 'sh.addShard("rs1/127.0.0.1:27001");sh.addShard("rs2/127.0.0.1:28001");printjson(sh.status());'
 
 # Run mongo as the running process, this is required to keep the docker process running
 mongo
